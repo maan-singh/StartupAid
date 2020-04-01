@@ -4,7 +4,7 @@ const requireLogin = require('../middlewares/requireLogin');
 
 // will send a response back to our api from stripe saying charge successfully created
 module.exports = app => {
-  app.post('/api/stripe', async (req, res) => {
+  app.post('/api/stripe', requireLogin, async (req, res) => {
     //forbidden - you have to be logged in to make a request to this endpoint.
     const charge = await stripe.charges.create({
       amount: 500,
