@@ -9,7 +9,7 @@ class Mailer extends helper.Mail {
     // returns an object that we can use to communicate with the sendgrid api thats why we assign this popert to sgAPi
     // after getting this api object, put together a function that we will use to actually communicate the actual Mailer to sg api
     this.sgApi = sendgrid(keys.sendGridKey);
-    this.from_email = new helper.Email('monu-no-reply@startupaid.com');
+    this.from_email = new helper.Email('monu-no-reply@monu.com');
     this.subject = subject;
     this.body = new helper.Content('text/html', content);
     this.recipients = this.formatAddresses(recipients);
