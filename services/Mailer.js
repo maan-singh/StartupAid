@@ -6,7 +6,7 @@ class Mailer extends helper.Mail {
   constructor({ subject, recipients }, content) {
     super();
 
-    // returns an object that we can use to communicate with the sendgrid api thats why we assign this popert to sgAPi
+    // returns an object that we can use to communicate with the sendgrid api thats why we assign this poperty to sgAPi
     // after getting this api object, put together a function that we will use to actually communicate the actual Mailer to sg api
     this.sgApi = sendgrid(keys.sendGridKey);
     this.from_email = new helper.Email('monu-no-reply@monu.com');
@@ -30,7 +30,7 @@ class Mailer extends helper.Mail {
     const trackingSettings = new helper.TrackingSettings();
     const clickTracking = new helper.ClickTracking(true, true);
 
-    trackSettings.setClickTracking(clickTracking);
+    trackingSettings.setClickTracking(clickTracking);
     this.addTrackingSettings(trackingSettings);
   }
 
@@ -38,7 +38,7 @@ class Mailer extends helper.Mail {
   addRecipients() {
     const personalize = new helper.Personalization();
 
-    this.recipients.forEach(recipient => {
+    this.recipients.forEach((recipient) => {
       personalize.addTo(recipient);
     });
     this.addPersonalization(personalize);
@@ -52,11 +52,11 @@ class Mailer extends helper.Mail {
     const request = this.sgApi.emptyRequest({
       method: 'POST',
       path: '/v3/mail/send',
-      body: this.toJSON()
+      body: this.toJSON(),
     });
 
     // after creating the request above, send off the request to sendgrid. We get a response back from sendgrid
-    const response = this.sgApi.API(request);
+    const response = await this.sgApi.API(request);
     return response;
   }
 }

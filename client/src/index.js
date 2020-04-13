@@ -7,7 +7,8 @@ import reduxThunk from 'redux-thunk';
 
 import App from './components/App';
 import reducers from './reducers';
-// set axios on our window scope
+
+// Development only axios helpers! - set axios on our window scope
 import axios from 'axios';
 window.axios = axios;
 

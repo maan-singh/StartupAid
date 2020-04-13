@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_USER } from './types';
+import { FETCH_USER, FETCH_SURVEYS } from './types';
 
 //V1 - w/o redux thunk
 // without using Redux Thunk, as we do not have access to Dispatch function so we simply return it.
@@ -37,14 +37,14 @@ import { FETCH_USER } from './types';
 // We want to dispatch an action here after the axios request has been successfully completed. ASYNC
 // chain on .then statement like above. And once the promise is resolved, only then will we dispatch an action and have that sent off
 // to all the different reducers.
-export const fetchUser = () => async dispatch => {
+export const fetchUser = () => async (dispatch) => {
   const res = await axios.get('/api/current_user');
 
   dispatch({ type: FETCH_USER, payload: res.data });
 };
 
 // ACTION CREATOR FOR STRIPE TO TAKE TOKEN TO BACKEND; POST REQUEST TO OUR BACKEND SERVER BECAUSE WE WANT TO SEND SOME INFO TO BACKEND
-export const handleToken = token => async dispatch => {
+export const handleToken = (token) => async (dispatch) => {
   const res = await axios.post('/api/stripe', token);
 
   dispatch({ type: FETCH_USER, payload: res.data });
@@ -56,3 +56,16 @@ export const handleToken = token => async dispatch => {
 // WHEN USER PAYS AND THE BACKEND SERVER SENDS BACK THE UPDATED USER MODEL WITH UPDATED CREDITS, THEN WE CAN REUSE THE EXACT SAME FETCH USER TYPE.
 // REMEMBER, IF WE DISPATCH AN ACTION OF TYPE FETCH USER AND THAT CONTAINS A PAYLOAD OF THE USER MODEL, THE AUTH REDUCER WILL AUTOMATICALLY
 // PICK IT UP AND IN THEORY, ANYTHING INSIDE OF OUR APPLICATION THAT DEPENDS ON OUR USER MODEL WILL BE AUTOMATICALLY UPDATED. NOW, HOOK IY UP TO PAYMENTS.
+
+export const submitSurvey = (values, history) => async (dispatch) => {
+  const res = await axios.post('/api/surveys', values);
+
+  history.push('/surveys');
+  dispatch({ type: FETCH_USER, payload: res.data });
+};
+
+export const fetchSurveys = () => async (dispatch) => {
+  const res = await axios.get('/api/surveys');
+
+  dispatch({ type: FETCH_SURVEYS, payload: res.data });
+};
